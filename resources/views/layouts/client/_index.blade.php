@@ -69,7 +69,7 @@
                             <div class="col-sm-9">
                                 @foreach($services as $service) 
                                 <div class="checkbox-custom chekbox-primary">
-                                    <input id="{{ $service['service'] }}" value="{{ $service['id'] }}" type="checkbox" name="for[]" required />
+                                    <input id="{{ $service['service'] }}" value="{{ $service['id'] }}" type="checkbox" name="service_option[]" required />
                                     <label for="{{ $service['service'] }}">{{ $service['service'] }}</label>
                                 </div>
                                 @endforeach

@@ -2,10 +2,15 @@
 
 @extends('layouts.admin.index')
 @section('admin_content')
+    <div class="container">
+        <div class="card-container">
+            <div class="card"></div>
+        </div>
+    </div>
 	<section class="card">
         <div class="card-body">
             <div class="row">
-                <div class="col-lg-9">
+                <div class="col-lg">
                     <div id="calendar"></div>
                 </div>
             </div>

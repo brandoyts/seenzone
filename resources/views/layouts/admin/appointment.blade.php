@@ -16,10 +16,8 @@
             <td>{{ $value['email'] }}</td>
             <td>{{ $value['scheduled_at'] }}</td>
             <td class="actions">
-                <a href="#" class="hidden on-editing save-row"><i class="fas fa-save"></i></a>
-                <a href="#" class="hidden on-editing cancel-row"><i class="fas fa-times"></i></a>
-                <a href="#" class="on-default edit-row"><i class="fas fa-pencil-alt"></i></a>
-                <a href="#" class="on-default remove-row"><i class="far fa-trash-alt"></i></a>
+                <a href="#" class="on-default btn btn-success text-light"><i class="fas fa-check"></i>Served</a>
+                <a href="#" class="on-default btn btn-danger remove-row text-light"><i class="far fa-trash-alt"></i>Cancel</a>
             </td>
         </tr>
         @endforeach

@@ -17,10 +17,9 @@ class CreateAppointmentsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users');
             $table->foreignId('status_id')->constrained('status');
-            $table->json('service_ids');
+            $table->string('service_ids');
             $table->integer('cost');
             $table->timestamp('scheduled_at')->nullable();
-            // $table->datetime('scheduled_at');
             $table->timestamps();  
         });
     }

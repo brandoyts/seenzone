@@ -42,7 +42,9 @@ class Appointment extends Model
      * @var array
      */
     protected $casts = [
-        'service_ids' => 'array'
+        // 'service_ids' => 'array'
     ];
+
+
 
 }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Appointment extends Model
 {
@@ -44,6 +45,16 @@ class Appointment extends Model
     protected $casts = [
         // 'service_ids' => 'array'
     ];
+
+    // public function getScheduledAtAttribute($value) {
+       
+    //     return Carbon::create($value)->toDayDateTimeString();
+    // }
+
+    // public function getUpdatedAtAttribute($value) {
+       
+    //     return Carbon::create($value)->toDayDateTimeString();
+    // }
 
 
 

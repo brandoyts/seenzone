@@ -3,8 +3,36 @@
 @extends('layouts.admin.index')
 @section('admin_content')
     <div class="container">
-        <div class="card-container">
-            <div class="card"></div>
+        <div class="card-container d-flex flex-row flex-wrap justify-content-around py-5 align-items-end">
+            <div class="card w-25">
+                <div class="card-header bg-primary">
+                    <h1 class="card-title text-light">Tasks for Today</h1>
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="count font-weight-bold text-primary"></h2>
+                    <a href="/showTaskToday">View</a>
+                </div>
+            </div>
+
+            <div class="card w-25">
+                <div class="card-header bg-secondary">
+                    <h1 class="card-title text-light">Ongoing</h1>
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="count font-weight-bold text-secondary"></h2>
+                    <a href="/showOngoingTask">View</a>
+                </div>
+            </div>
+
+            <div class="card w-25">
+                <div class="card-header bg-success">
+                    <h1 class="card-title text-light">Served</h1>
+                </div>
+                <div class="card-body text-center">
+                    <h2 class="count font-weight-bold text-success"></h2>
+                    <a href="/showServedTask">View</a>
+                </div>
+            </div>
         </div>
     </div>
 	<section class="card">
@@ -78,17 +106,34 @@
                 var d = date.getDate();
                 var m = date.getMonth();
                 var y = date.getFullYear();
+                var h = date.getHours();
+                
+               
 
-                var appointments = {!! json_encode($data) !!};
+                console.log({!! json_encode($responseData) !!});
+                var appointments = {!! json_encode($responseData['calendarData']) !!};
+
                 var schedules = appointments.map(sched => {
+                    var className = null;
+
+                    
+
+                    if (sched.status_id == 1) {
+                        className = 'fc-event-primary'
+                    }
+
+                    else if (sched.status_id == 2) {
+                        className = 'fc-event-success'
+                    }
+
                     return {
                         title: sched.email,
-                        start: new Date(sched.scheduled_at)
+                        start: new Date(sched.scheduled_at),
+                        className: className
                     };
                     
                 });
                 
-                console.log(schedules);
 
                 $calendar.fullCalendar({
                     header: {
@@ -209,6 +254,20 @@
             });
         }.apply(this, [jQuery]));
 
+    </script>
+
+    {{-- card count --}}
+    <script>
+        const countData = {!! json_encode($responseData['appointmentCount']) !!};
+        const counts = document.querySelectorAll('.count');
+
+        let idx = 0;
+
+        for (let key in countData) {
+            counts[idx].innerText = countData[key];
+            idx++;
+        }
+        
     </script>
 
 @endsection

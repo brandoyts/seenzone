@@ -21,7 +21,7 @@
                     <li >
                         <a class="nav-link" href="/appointment">
                             <i class="fas fa-tasks" aria-hidden="true"></i>
-                            <span>Appointments</span>
+                            <span>Manage Appointments</span>
                         </a>
                
                     </li>

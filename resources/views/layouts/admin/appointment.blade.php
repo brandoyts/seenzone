@@ -16,8 +16,8 @@
             <td>{{ $value['email'] }}</td>
             <td>{{ $value['scheduled_at'] }}</td>
             <td class="actions">
-                <a href="#" class="on-default btn btn-success text-light"><i class="fas fa-check"></i>Served</a>
-                <a href="#" class="on-default btn btn-danger remove-row text-light"><i class="far fa-trash-alt"></i>Cancel</a>
+                <a href="{{ route('confirmOrDelete', ['appointment_id' => "confirm ".$value['id']]) }}" class="on-default btn btn-success text-light"><i class="fas fa-check"></i>Confirm</a>
+                <a href="{{ route('confirmOrDelete', ['appointment_id' => "cancel ".$value['id']]) }}" class="on-default btn btn-danger  text-light"><i class="far fa-trash-alt"></i>Cancel</a>
             </td>
         </tr>
         @endforeach

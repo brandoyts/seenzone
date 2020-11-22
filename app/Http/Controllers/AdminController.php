@@ -35,6 +35,7 @@ class AdminController extends Controller
         $dateNow = $this->getTime();
     
         $appointments = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        ->where('status_id', 'not like', '%1%')
         ->get(['firstname', 'lastname', 'email', 'scheduled_at', 'status_id'])
         ->toArray();
         $this->getAppointmentCount();
@@ -45,11 +46,11 @@ class AdminController extends Controller
     private function getAppointmentCount() {
         $dateNow = $this->getTime();
 
-        $taskToday = Appointment::where('status_id', 1)
+        $taskToday = Appointment::where('status_id', 2)
         ->where('scheduled_at', '<=', $dateNow['to'])
         ->count();
 
-        $ongoing = Appointment::where('status_id', 1)
+        $ongoing = Appointment::where('status_id', 2)
         ->where('scheduled_at', '<=', $dateNow['from'])
         ->count();
 
@@ -88,10 +89,28 @@ class AdminController extends Controller
         $appointments = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
         ->where('status_id', 1)
         ->orderBy('scheduled_at', 'asc')
-        ->get(['firstname', 'lastname', 'email', 'contact_number', 'scheduled_at'])
+        ->get(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'scheduled_at'])
         ->toArray();
         
         return view('layouts.admin.appointment', compact('appointments'));
+    }
+
+    public function confirmOrDelete(Request $request) {
+
+        $idParam = explode(' ', $request->route('appointment_id'));
+
+        // check if appointmens exists
+        $appointment = Appointment::find($idParam[1]);
+        
+        if ($idParam[0] == 'confirm') {
+            $appointment->status_id = 2;
+            $appointment->save();
+        } 
+        else if ($idParam[0] == 'cancel') {
+            $appointment->delete();
+        }
+
+        return redirect()->back();
     }
 
     public function getServices() {
@@ -112,7 +131,7 @@ class AdminController extends Controller
         ];
 
         $taskToday = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
-        ->where('status_id', 1)
+        ->where('status_id', 2)
         ->where('scheduled_at', '<=', $dateNow['to'])
         ->get($fields)
         ->toArray();
@@ -133,7 +152,7 @@ class AdminController extends Controller
         ];
 
         $ongoingTasks = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
-        ->where('status_id', '=', 1)
+        ->where('status_id', '=', 2)
         ->where('scheduled_at', '<=', $dateNow['from'])
         ->get($fields)
         ->toArray();
@@ -161,7 +180,7 @@ class AdminController extends Controller
 
        
         $servedTask = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
-        ->where('status_id', 2)
+        ->where('status_id', 3)
         ->whereBetween('appointments.updated_At', $dateNow)
         ->get($fields)
         ->toArray();
@@ -173,7 +192,7 @@ class AdminController extends Controller
 
         $id = $request['appointment_id'];
         $appointment = Appointment::find($id);
-        $appointment->status_id = 2;
+        $appointment->status_id = 3;
         $appointment->save();
         
         return redirect()->back();

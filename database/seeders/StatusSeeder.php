@@ -15,6 +15,7 @@ class StatusSeeder extends Seeder
     public function run()
     {
         $status = [
+            ['name' => 'pending'],
             ['name' => 'ongoing'],
             ['name' => 'served'],
         ];

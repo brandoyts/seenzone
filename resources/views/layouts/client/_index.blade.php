@@ -50,9 +50,12 @@
                 </section>
             </div>
 
+            
+
             {{-- book --}}
             <section id="book">
                 <div class="container">
+                   
                     <form id="chk-radios-form" method="POST" action="{{ route('book') }}">
                         @csrf
 
@@ -61,15 +64,19 @@
                             <div class="col-sm-9">
                                 <div >
                                     <input id="scheduled_at" name="scheduled_at" type="datetime-local" required />
+                                    @if(session()->has('message'))
+                                    <strong class="text-danger"> {{session()->get('message') }}</strong>
+                                    @endif
                                 </div>
                             </div>
                         </div>
+                        
                         <div class="form-group row">
                             <label class="col-sm-3 control-label text-sm-right pt-2">Services<span class="required">*</span></label>
                             <div class="col-sm-9">
                                 @foreach($services as $service) 
-                                <div class="checkbox-custom chekbox-primary">
-                                    <input id="{{ $service['service'] }}" value="{{ $service['id'] }}" type="checkbox" name="service_option[]" required />
+                                <div class="radio-custom radio-primary">
+                                    <input id="{{ $service['service'] }}" value="{{ $service['id'] }}" type="radio" name="service_option" required />
                                     <label for="{{ $service['service'] }}">{{ $service['service'] }}</label>
                                 </div>
                                 @endforeach

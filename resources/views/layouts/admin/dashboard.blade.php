@@ -107,10 +107,7 @@
                 var m = date.getMonth();
                 var y = date.getFullYear();
                 var h = date.getHours();
-                
-               
 
-                console.log({!! json_encode($responseData) !!});
                 var appointments = {!! json_encode($responseData['calendarData']) !!};
 
                 var schedules = appointments.map(sched => {
@@ -118,11 +115,11 @@
 
                     
 
-                    if (sched.status_id == 1) {
+                    if (sched.status_id == 2) {
                         className = 'fc-event-primary'
                     }
 
-                    else if (sched.status_id == 2) {
+                    else if (sched.status_id == 3) {
                         className = 'fc-event-success'
                     }
 

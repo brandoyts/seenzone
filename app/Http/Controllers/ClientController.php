@@ -16,18 +16,30 @@ class ClientController extends Controller
     
 
     public function book(Request $request) {
-        $arrayToString = implode(',', $request->input('service_option'));
-        $serviceIds = $arrayToString;
+        // $arrayToString = implode(',', $request->input('service_option'));
+        // $serviceIds = $arrayToString;
 
-        $serviceCost = Service::whereIn('id', $request->input('service_option'))->sum('cost');
+        // $serviceCost = Service::whereIn('id', $request->input('service_option'))->sum('cost');
+
+        // check if there is a same date service appointment
+        $appointment = Appointment::where('scheduled_at', $request->scheduled_at)
+        ->where('service_ids', $request->service_option)
+        ->get()
+        ->toArray();
+
+        if (sizeof($appointment) > 0) {
+            session()->flash('message','Schedule is not available!');
+            return redirect()->intended('/#book');
+        } else {
+            Appointment::insert([
+                'user_id' => $request->user_id,
+                'scheduled_at' => $request->scheduled_at,
+                'status_id' => 1,
+                'service_ids' => $request->service_option,
+            ]);
+        }
         
-        Appointment::insert([
-            'user_id' => $request->user_id,
-            'scheduled_at' => $request->scheduled_at,
-            'status_id' => 1,
-            'service_ids' => $serviceIds,
-            'cost' => $serviceCost
-        ]);
+        
 
         return redirect()->back();
     }

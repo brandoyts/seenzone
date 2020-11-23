@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+        // $this->middleware('auth');
+        $this->middleware('role');
     }
 
     private function getTime() {
@@ -54,7 +55,7 @@ class AdminController extends Controller
         ->where('scheduled_at', '<=', $dateNow['from'])
         ->count();
 
-        $served = Appointment::where('status_id', 2)
+        $served = Appointment::where('status_id', 3)
         ->whereBetween('updated_at', $dateNow)
         ->count();
 
@@ -66,23 +67,16 @@ class AdminController extends Controller
     }
 
     public function index() {
-       $isAdmin = Auth::user()->role_id == 1;
-       
-        if ($isAdmin) {
-            $calendarData = $this->getAppointments();
-            $appointmentCount = $this->getAppointmentCount();
+    
+        $calendarData = $this->getAppointments();
+        $appointmentCount = $this->getAppointmentCount();
 
-            $responseData = [
-                'calendarData' => $calendarData,
-                'appointmentCount' =>  $appointmentCount
-            ];
+        $responseData = [
+            'calendarData' => $calendarData,
+            'appointmentCount' =>  $appointmentCount
+        ];
 
-
-            return view('layouts.admin.dashboard', compact('responseData'));
-        } else {
-            return redirect('/');
-        }
-
+        return view('layouts.admin.dashboard', compact('responseData'));
     }
 
     public function getAppointment() {
@@ -171,7 +165,6 @@ class AdminController extends Controller
             'firstname',
             'lastname',
             'email',
-            'cost',
             'service_ids',
             'status_id',
             'scheduled_at',

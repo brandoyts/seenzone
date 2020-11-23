@@ -53,14 +53,6 @@
 		<script src="vendor/modernizr/modernizr.js"></script>
 
 
-
-
-
-
-
-
-
-
 		<!-- Vendor CSS -->
 		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css" />
 		<link rel="stylesheet" href="vendor/animate/animate.css">
@@ -81,6 +73,42 @@
 		<link rel="stylesheet" href="css/theme.css" />
 
 
+		<!--(remove-empty-lines-end)-->
+
+
+
+		<!-- Skin CSS -->
+		<link rel="stylesheet" href="css/skins/default.css" />
+
+		<!-- Theme Custom CSS -->
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- Head Libs -->
+		<script src="vendor/modernizr/modernizr.js"></script>
+
+
+
+
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css" />
+		<link rel="stylesheet" href="vendor/animate/animate.css">
+
+		<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css" />
+		<link rel="stylesheet" href="vendor/magnific-popup/magnific-popup.css" />
+		<link rel="stylesheet" href="vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css" />
+
+		<!-- Specific Page Vendor CSS -->
+		<link rel="stylesheet" href="vendor/boxicons/css/boxicons.min.css" />
+		<link rel="stylesheet" href="vendor/pnotify/pnotify.custom.css" />
+
+		<!--(remove-empty-lines-end)-->
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" href="css/theme.css" />
+
+
+		<!-- Theme Layout -->
+		<link rel="stylesheet" href="css/layouts/modern.css" />
 		<!--(remove-empty-lines-end)-->
 
 
@@ -151,5 +179,37 @@
 				document.getElementById('header-title').innerText =  pageTitle;
 			})
 		</script>
+
+
+<!-- Vendor -->
+<script src="vendor/jquery/jquery.js"></script>
+<script src="vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
+<script src="vendor/popper/umd/popper.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.js"></script>
+<script src="vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+<script src="vendor/common/common.js"></script>
+<script src="vendor/nanoscroller/nanoscroller.js"></script>
+<script src="vendor/magnific-popup/jquery.magnific-popup.js"></script>
+<script src="vendor/jquery-placeholder/jquery.placeholder.js"></script>
+
+<!-- Specific Page Vendor -->
+<script src="vendor/jquery-validation/jquery.validate.js"></script>
+<script src="vendor/pnotify/pnotify.custom.js"></script>
+
+
+<!--(remove-empty-lines-end)-->
+
+<!-- Theme Base, Components and Settings -->
+<script src="js/theme.js"></script>
+
+<!-- Theme Custom -->
+<script src="js/custom.js"></script>
+
+<!-- Theme Initialization Files -->
+<script src="js/theme.init.js"></script>
+
+<!-- Examples -->
+<script src="js/examples/examples.header.menu.js"></script>
+<script src="js/examples/examples.ecommerce.form.js"></script>
 	</body>
 </html>

@@ -38,11 +38,9 @@
                             <span>Reports</span>
                         </a>                        
                     </li>
-
                 </ul>
             </nav>
         </div>
-
         <script>
             // Maintain Scroll Position
             if (typeof localStorage !== 'undefined') {

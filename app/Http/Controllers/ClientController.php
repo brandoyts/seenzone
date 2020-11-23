@@ -7,11 +7,12 @@ use App\Models\Service;
 use App\Models\Appointment;
 
 class ClientController extends Controller
-{
+{   
+
     public function index() {
         $services = Service::get()->toArray();
         
-        return view('layouts.client._index', compact('services'));
+        return view('layouts.client.index', compact('services'));
     }
     
 
@@ -22,6 +23,7 @@ class ClientController extends Controller
         // $serviceCost = Service::whereIn('id', $request->input('service_option'))->sum('cost');
 
         // check if there is a same date service appointment
+
         $appointment = Appointment::where('scheduled_at', $request->scheduled_at)
         ->where('service_ids', $request->service_option)
         ->get()

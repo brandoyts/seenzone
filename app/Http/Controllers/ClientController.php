@@ -25,7 +25,7 @@ class ClientController extends Controller
         // check if there is a same date service appointment
 
         $appointment = Appointment::where('scheduled_at', $request->scheduled_at)
-        ->where('service_ids', $request->service_option)
+        ->where('service_id', $request->service_option)
         ->get()
         ->toArray();
 
@@ -37,7 +37,7 @@ class ClientController extends Controller
                 'user_id' => $request->user_id,
                 'scheduled_at' => $request->scheduled_at,
                 'status_id' => 1,
-                'service_ids' => $request->service_option,
+                'service_id' => $request->service_option,
             ]);
         }
         

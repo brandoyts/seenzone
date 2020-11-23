@@ -33,7 +33,7 @@
                         </a>                        
                     </li>
                     <li>
-                        <a class="nav-link" href="#">
+                        <a class="nav-link" href="/reports">
                             <i class="fas fa-external-link-alt" aria-hidden="true"></i>
                             <span>Reports</span>
                         </a>                        

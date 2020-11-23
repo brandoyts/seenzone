@@ -31,6 +31,7 @@ Route::get('/services', [AdminController::class, 'getServices'])->name('services
 Route::get('/showTaskToday', [AdminController::class, 'showTaskToday'])->name('showTaskToday');
 Route::get('/showOngoingTask', [AdminController::class, 'showOngoingTask'])->name('showOngoingTask');
 Route::get('/showServedTask', [AdminController::class, 'showServedTask'])->name('showServedTask');
-
+Route::get('/reports', [AdminController::Class, 'viewReports'])->name('reports');
 Route::post('/updateTask', [AdminController::class, 'updateTask'])->name('updateTask'); // mark as served
+
 

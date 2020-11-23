@@ -30,7 +30,6 @@ class AdminController extends Controller
         ];
     }
 
-
     private function getAppointments() {
        
         $dateNow = $this->getTime();
@@ -189,5 +188,14 @@ class AdminController extends Controller
         $appointment->save();
         
         return redirect()->back();
+    }
+
+    public function viewReports(Request $request) {
+       $servedTasks = Appointment::where('status_id', 3)
+       ->join('users', 'users.id', '=', 'appointments.user_id')
+       ->get()
+       ->toArray();
+
+       dd($servedTasks);
     }
 }

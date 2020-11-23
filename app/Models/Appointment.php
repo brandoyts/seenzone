@@ -19,6 +19,10 @@ class Appointment extends Model
         return $this->belongsTo('App\Models\User')->withDefault();
     }
 
+    public function service() {
+        return $this->belongsTo('App\Models\service')->withDefault();
+    }
+
    
 
 
@@ -30,7 +34,7 @@ class Appointment extends Model
     protected $fillable = [
         'user_id',
         'status_id',
-        'service_ids',
+        'service_id',
         'scheduled_at',
     ];
 

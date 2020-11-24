@@ -207,17 +207,60 @@ class AdminController extends Controller
     }
 
     public function viewReports(Request $request) {
+        Carbon::setWeekStartsAt(Carbon::SUNDAY);
+		Carbon::setWeekEndsAt(Carbon::SATURDAY);
+        $now = Carbon::now();
 
+        
 
+        $date = $request->date_range ? $request->date_range : 'current_day';
+       
 
-       $servedTasks = DB::table('appointments')
-       ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at'])
-       ->where('status_id', 3)
-       ->join('users', 'users.id', '=', 'appointments.user_id')
-       ->join('services', 'services.id', '=', 'appointments.service_id')
-       ->paginate(20);
+        if ($request->date_custom_from && $request->date_custom_from) {
+            $date_from = $request->date_custom_from;
+            $date_to = $request->date_custom_to;
+        } 
+        
+        else {
+            switch ($date) {
+                case is_array($date):
+                    $date_from = $date['date_from'];
+                    $date_to = $date['date_to'];
+                    break;
+                case 'current_day':
+                    $date_from = $now->startOfDay()->toDateTimeString();
+                    $date_to = $now->endOfDay()->toDateTimeString();
+                    break;
+                case 'current_week':
+                    $date_from = $now->startOfWeek()->toDateTimeString();
+                    $date_to = $now->endOfWeek()->toDateTimeString();
+                    break;
+                case 'current_month':
+                    $date_from = $now->startOfMonth()->toDateTimeString();
+                    $date_to = $now->endOfMonth()->toDateTimeString();
+                    break;
+                case 'current_year':
+                    $date_from = $now->startOfYear()->toDateTimeString();
+                    $date_to = $now->endOfYear()->toDateTimeString();
+                    break;
+            }
+        }
+        
+        $date_filter = [$date_from, $date_to];
 
-        // dd($servedTasks);
-       return view('layouts.admin.showReports', compact('servedTasks'));
+        $servedTasks = DB::table('appointments')
+        ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at'])
+        ->when($date_filter, function ($query, $date_filter) {
+            if (in_array(null, $date_filter, true)) {
+                return false;
+            }
+            return $query->whereBetween('appointments.updated_at', [$date_filter[0],$date_filter[1]]);
+        })
+        ->where('status_id', 3)
+        ->join('users', 'users.id', '=', 'appointments.user_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
+        ->get();
+
+        return view('layouts.admin.showReports', compact('servedTasks'));
     }
 }

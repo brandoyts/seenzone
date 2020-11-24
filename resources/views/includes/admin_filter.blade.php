@@ -1,5 +1,6 @@
 
-<form method="POST" class="card" style="margin-bottom: 3%; margin-top: 3%">
+<form method="GET" action="{{ route('reports') }}" class="card" style="margin-bottom: 3%; margin-top: 3%">
+    @csrf
     <div class="card-header">
         <h2 class="card-title">Filter</h2>
     </div>
@@ -8,8 +9,8 @@
             <div class="col-sm">
                 <div class="form-group">
                     <label for="date-select">Date</label>
-                    <select class="form-control" id="date-select">
-                        <option value="">(All)</option>
+                    <select name="date_range" class="form-control" id="date-select">
+                        {{-- <option value="">(All)</option> --}}
                         <option value="current_day" selected>Current Day</option>
                         <option value="current_week" >Current Week</option>
                         <option value="current_month">Current Month</option>
@@ -20,13 +21,13 @@
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="date-from">Date from</label>
-                            <input type="datetime-local" class="form-control" id="date-from" placeholder="">
+                            <input name="date_custom_from" type="datetime-local" class="form-control" id="date-from" placeholder="">
                         </div>
                     </div>
                     <div class="col-sm">
                         <div class="form-group">
                             <label for="date-to">Date to</label>
-                            <input type="datetime-local" class="form-control" id="date-to" placeholder="">
+                            <input name="date_custom_to" type="datetime-local" class="form-control" id="date-to" placeholder="">
                         </div>
                     </div>
                 </div>

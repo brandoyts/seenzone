@@ -3,8 +3,8 @@
 
 <section class="body-sign">
     <div class="center-sign">
-        <a href="/" class="logo float-left">
-            <img src="img/logo.png" height="54" alt="SeenZone" />
+        <a href="/">
+            <img class="logo" src="landing_page/assets/img/logo.jpg" height="54" alt="SeenZone" />
         </a>
         <div class="panel card-sign">
             <div class="card-title-sign mt-3 text-right">

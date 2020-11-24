@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\DB;
 class AdminController extends Controller
 {
     public function __construct() {
-        // $this->middleware('auth');
         $this->middleware('role');
     }
 
@@ -36,7 +35,7 @@ class AdminController extends Controller
     
         $appointments = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
         ->where('status_id', 'not like', '%1%')
-        ->get(['firstname', 'lastname', 'email', 'scheduled_at', 'status_id'])
+        ->get(['firstname', 'lastname', 'email', 'scheduled_at', 'status_id', 'contact_number'])
         ->toArray();
         $this->getAppointmentCount();
         return $appointments;
@@ -80,10 +79,13 @@ class AdminController extends Controller
 
     public function getAppointment() {
         $appointments = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', 1)
         ->orderBy('scheduled_at', 'asc')
-        ->get(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'scheduled_at'])
+        ->get(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'scheduled_at', 'services.service', 'services.cost', 'contact_number'])
         ->toArray();
+
+        
         
         return view('layouts.admin.appointment', compact('appointments'));
     }
@@ -120,14 +122,18 @@ class AdminController extends Controller
             'lastname',
             'email',
             'scheduled_at',
-            'service_ids',
+            'services.service',
+            'services.cost',
+            'contact_number'
         ];
 
         $taskToday = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', 2)
         ->where('scheduled_at', '<=', $dateNow['to'])
         ->get($fields)
         ->toArray();
+
 
        return view('layouts.admin.showTaskToday', compact('taskToday'));
     }
@@ -141,10 +147,13 @@ class AdminController extends Controller
             'lastname',
             'email',
             'scheduled_at',
-            'service_ids',
+            'services.service',
+            'services.cost',
+            'contact_number'
         ];
 
         $ongoingTasks = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', '=', 2)
         ->where('scheduled_at', '<=', $dateNow['from'])
         ->get($fields)
@@ -164,22 +173,29 @@ class AdminController extends Controller
             'firstname',
             'lastname',
             'email',
-            'service_ids',
             'status_id',
             'scheduled_at',
+            'services.service',
+            'services.cost',
             'appointments.updated_at',
+            'contact_number'
         ];
 
        
         $servedTask = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', 3)
         ->whereBetween('appointments.updated_At', $dateNow)
         ->get($fields)
         ->toArray();
 
+       
+
+
         return view('layouts.admin.showServedTask', compact('servedTask'));
     }
 
+    // mark as served
     public function updateTask(Request $request) {
 
         $id = $request['appointment_id'];
@@ -191,11 +207,17 @@ class AdminController extends Controller
     }
 
     public function viewReports(Request $request) {
-       $servedTasks = Appointment::where('status_id', 3)
-       ->join('users', 'users.id', '=', 'appointments.user_id')
-       ->get()
-       ->toArray();
 
-       dd($servedTasks);
+
+
+       $servedTasks = DB::table('appointments')
+       ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at'])
+       ->where('status_id', 3)
+       ->join('users', 'users.id', '=', 'appointments.user_id')
+       ->join('services', 'services.id', '=', 'appointments.service_id')
+       ->paginate(20);
+
+        // dd($servedTasks);
+       return view('layouts.admin.showReports', compact('servedTasks'));
     }
 }

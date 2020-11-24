@@ -5,6 +5,8 @@
         <tr>
             <th>Full Name</th>
             <th>Email</th>
+            <th>Contact Number</th>
+            <th>Service</th>
             <th>Schedule</th>
             <th>Actions</th>
         </tr>
@@ -14,6 +16,8 @@
         <tr data-item-id="{{ $key }}">
             <td>{{ $value['firstname'].' '.$value['lastname'] }}</td>
             <td>{{ $value['email'] }}</td>
+            <td>{{ $value['contact_number'] }}</td>
+            <td>{{ $value['service'] }}</td>
             <td>{{ $value['scheduled_at'] }}</td>
             <td class="actions">
                 <a href="{{ route('confirmOrDelete', ['appointment_id' => "confirm ".$value['id']]) }}" class="on-default btn btn-success text-light"><i class="fas fa-check"></i>Confirm</a>

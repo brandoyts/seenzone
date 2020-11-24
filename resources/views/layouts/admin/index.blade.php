@@ -41,6 +41,9 @@
 
 		<!--(remove-empty-lines-end)-->
 
+		<link rel="stylesheet" href="vendor/select2/css/select2.css" />
+		<link rel="stylesheet" href="vendor/select2-bootstrap-theme/select2-bootstrap.min.css" />
+		<link rel="stylesheet" href="vendor/datatables/media/css/dataTables.bootstrap4.css" />
 
 
 		<!-- Skin CSS -->
@@ -121,6 +124,47 @@
 
 		<!-- Head Libs -->
 		<script src="vendor/modernizr/modernizr.js"></script>
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"/>
+		<link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+		<link href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
+
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" href="vendor/bootstrap/css/bootstrap.css" />
+		<link rel="stylesheet" href="vendor/animate/animate.css">
+
+		<link rel="stylesheet" href="vendor/font-awesome/css/all.min.css" />
+		<link rel="stylesheet" href="vendor/magnific-popup/magnific-popup.css" />
+		<link rel="stylesheet" href="vendor/bootstrap-datepicker/css/bootstrap-datepicker3.css" />
+
+		<!-- Specific Page Vendor CSS -->
+		<link rel="stylesheet" href="vendor/select2/css/select2.css" />
+		<link rel="stylesheet" href="vendor/select2-bootstrap-theme/select2-bootstrap.min.css" />
+		<link rel="stylesheet" href="vendor/datatables/media/css/dataTables.bootstrap4.css" />
+
+		<!--(remove-empty-lines-end)-->
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" href="css/theme.css" />
+
+
+		<!--(remove-empty-lines-end)-->
+
+
+
+		<!-- Skin CSS -->
+		<link rel="stylesheet" href="css/skins/default.css" />
+
+		<!-- Theme Custom CSS -->
+		<link rel="stylesheet" href="css/custom.css">
+
+		<!-- Head Libs -->
+		<script src="vendor/modernizr/modernizr.js"></script>
+
+	
+
 	</head>
 	<body>
 		<section class="body">

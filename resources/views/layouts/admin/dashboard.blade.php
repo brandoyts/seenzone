@@ -8,7 +8,7 @@
                 <div class="card-header bg-primary">
                     <h1 class="card-title text-light">Tasks for Today</h1>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body text-center bg-dark">
                     <h2 class="count font-weight-bold text-primary"></h2>
                     <a href="/showTaskToday">View</a>
                 </div>
@@ -18,7 +18,7 @@
                 <div class="card-header bg-secondary">
                     <h1 class="card-title text-light">Ongoing</h1>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body text-center bg-dark">
                     <h2 class="count font-weight-bold text-secondary"></h2>
                     <a href="/showOngoingTask">View</a>
                 </div>
@@ -28,7 +28,7 @@
                 <div class="card-header bg-success">
                     <h1 class="card-title text-light">Served</h1>
                 </div>
-                <div class="card-body text-center">
+                <div class="card-body text-center bg-dark">
                     <h2 class="count font-weight-bold text-success"></h2>
                     <a href="/showServedTask">View</a>
                 </div>

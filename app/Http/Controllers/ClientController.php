@@ -17,11 +17,6 @@ class ClientController extends Controller
     
 
     public function book(Request $request) {
-        // $arrayToString = implode(',', $request->input('service_option'));
-        // $serviceIds = $arrayToString;
-
-        // $serviceCost = Service::whereIn('id', $request->input('service_option'))->sum('cost');
-
         // check if there is a same date service appointment
 
         $appointment = Appointment::where('scheduled_at', $request->scheduled_at)

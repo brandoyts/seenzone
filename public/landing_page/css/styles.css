@@ -10403,6 +10403,14 @@ p {
     line-height: 1.75;
 }
 
+#services .section-heading {
+    margin-bottom: 5rem;
+}
+
+#services {
+    background-color: #f8f9fa;
+}
+
 .page-section {
     padding: 6rem 0;
 }
@@ -10544,17 +10552,43 @@ img::-moz-selection {
         margin-right: 0;
     }
 }
+
 header.masthead {
+    height: 700px;
+    position: relative;
     padding-top: 10.5rem;
     padding-bottom: 6rem;
     text-align: center;
     color: #fff;
-    background-image: url("../assets/img/test.jpg");
     background-repeat: no-repeat;
     background-attachment: scroll;
     background-position: center center;
     background-size: cover;
+    transition: all 0.9s ease;
 }
+
+.masthead .overlay {
+    background: rgba(0, 0, 0, 0.3);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+}
+
+.navbar-brand > img,
+.logo {
+    height: 90px !important;
+    width: 90px !important;
+    border-radius: 50% !important;
+}
+
+.masthead .container {
+    position: absolute;
+    top: 50%;
+    right: 50%;
+    transform: translate(50%, -50%);
+}
+
 header.masthead .masthead-subheading {
     font-size: 1.5rem;
     font-style: italic;
@@ -10565,6 +10599,7 @@ header.masthead .masthead-subheading {
         "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 header.masthead .masthead-heading {
+    z-index: 2;
     font-size: 3.25rem;
     font-weight: 700;
     line-height: 3.25rem;

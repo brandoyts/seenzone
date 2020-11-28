@@ -1,6 +1,58 @@
 @extends('layouts.admin.index')
 @section('admin_content')
+<section class="cards d-flex justify-content-around m-auto flex-wrap w-75">
+    <div >
+        <div >
+            <section class="card mb-4">
+                <div class="card-body bg-quaternary">
+                    <div class="widget-summary">
+                        <div class="widget-summary-col widget-summary-col-icon">
+                            <div class="summary-icon">
+                                <i class="fas fa-life-ring"></i>
+                            </div>
+                        </div>
+                        <div class="widget-summary-col">
+                            <div class="summary">
+                                <h4 class="title">Appointment Count</h4>
+                                <div class="info">
+                                    <strong class="amount">{{ count($responseData['servedTasks']) }}</strong>
+                                </div>
+                            </div>
+                            <div class="summary-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
 
+    <div >
+        <div>
+            <section class="card mb-4">
+                <div class="card-body bg-primary">
+                    <div class="widget-summary">
+                        <div class="widget-summary-col widget-summary-col-icon">
+                            <div class="summary-icon">
+                                <i class="fas fa-life-ring"></i>
+                            </div>
+                        </div>
+                        <div class="widget-summary-col">
+                            <div class="summary">
+                                <h4 class="title">Sales</h4>
+                                <div class="info">
+                                    <strong class="amount">{{ $responseData['sales'] }}</strong>
+                                </div>
+                            </div>
+                            <div class="summary-footer">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
 @include('includes.admin_filter')
 <section class="card">
     <header class="card-header">
@@ -21,8 +73,8 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($servedTasks as $key => $value)
-                <tr data-item-id="{{ $key }}">
+                @foreach($responseData['servedTasks'] as $key => $value)
+                <tr >
                     <td>{{ $value->id }}</td>
                     <td>{{ $value->firstname . ' ' . $value->lastname }}</td>
                     <td>{{ $value->email }}</td>

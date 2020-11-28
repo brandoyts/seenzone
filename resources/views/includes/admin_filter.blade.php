@@ -38,18 +38,11 @@
                         <div class="form-group">
                             <label for="service-select" style="width: 100%">
                                 Choose Service:<br>
-                                <select id="service-select" class="service-select" multiple="multiple" style="width: 100%">
+                                <select id="service-select" name="service_select[]"class="service-select" multiple style="width: 100%">
                                     <option value="">(All)</option>
-                                    <option value="asd">(All)</option>
-                                    <option value="ss">(All)</option>
-                                    <option value="1">(All)</option>
-                                    <option value="3">(All)</option>
-                                    <option value="5">(All)</option>
-                                    <option value="2">(All)</option>
-                                    <option value="123">(All)</option>
-                                    <option value="32">(All)</option>
-                                    <option value="333">(All)</option>
-                                    <option value="1212">(All)</option>
+                                    @foreach ($responseData['services'] as $service)
+                                    <option value="{{ $service['id'] }}">{{ $service['service'] }}</option>
+                                    @endforeach
                                 </select>
                             </label>
                         </div>

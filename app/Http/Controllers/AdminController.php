@@ -211,8 +211,6 @@ class AdminController extends Controller
 		Carbon::setWeekEndsAt(Carbon::SATURDAY);
         $now = Carbon::now();
 
-        
-
         $date = $request->date_range ? $request->date_range : 'current_day';
        
 
@@ -247,6 +245,9 @@ class AdminController extends Controller
         }
         
         $date_filter = [$date_from, $date_to];
+        $service_filter = $request->service_select;
+
+        $services = Service::get()->toArray();
 
         $servedTasks = DB::table('appointments')
         ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at'])
@@ -256,11 +257,38 @@ class AdminController extends Controller
             }
             return $query->whereBetween('appointments.updated_at', [$date_filter[0],$date_filter[1]]);
         })
+        ->when($service_filter, function($query, $service_filter) {
+            if (in_array(null, $service_filter, true)) {
+                return false;
+            }
+
+            return $query->whereIn('appointments.service_id', $service_filter);
+        })
         ->where('status_id', 3)
         ->join('users', 'users.id', '=', 'appointments.user_id')
         ->join('services', 'services.id', '=', 'appointments.service_id')
         ->get();
 
-        return view('layouts.admin.showReports', compact('servedTasks'));
+        
+        $total_sales = 0;
+
+        if ($servedTasks) {
+            foreach ($servedTasks as $task) {
+                $total_sales += $task->cost;
+            }
+        }
+
+        $total_sales = '₱ ' . number_format($total_sales, 2);
+       
+
+        $responseData = [
+            'servedTasks' => $servedTasks,
+            'services' => $services,
+            'sales' => $total_sales
+        ];
+
+
+
+        return view('layouts.admin.showReports', compact('responseData'));
     }
 }

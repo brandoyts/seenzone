@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta name="description" content="Auto Clinic" />
+        <meta name="author" content="Seenzone" />
         <title>Seen Zone | Auto Clinic</title>
         <link rel="icon" type="image/x-icon" href="landing_page/assets/img/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
@@ -14,7 +14,7 @@
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="landing_page/css/styles.css" rel="stylesheet" />
+        <link href="/landing_page/css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -175,53 +175,57 @@
 
         <!-- Contact-->
         <section class="page-section" id="contact">
-            <div class="container">
+            <div class="container"> session()->flash('message-fail','Schedule is not available!');
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Set an appointment</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    @if(session()->has('message-success'))
+                    <h3 class="text-success">{{ session()->get('message-success') }}</h3>
+                    @elseif(session()->has('message-fail'))
+                    <h3 class="text-warning">{{ session()->get('message-fail') }}
+                    @endif
                 </div>
-                <form method="POST" action={{ route('book') }}  novalidate="novalidate">
+                <form method="POST" action={{ route('book') }} >
                     @csrf
                     <div class="row align-items-stretch mb-5">
                         
                         <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input class="form-control" name="scheduled_at" id="scheduled_at" type="datetime-local" placeholder="Your First Name *" required="required" data-validation-required-message="Please enter the appointment schedule." />
+                                <input class="form-control" name="scheduled_at" id="scheduled_at" type="datetime-local" placeholder="Your First Name *" required data-validation-required-message="Please enter the appointment schedule." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             @if (Auth::user())
                             <div class="form-group">
-                                <input class="form-control" value={{ Auth::user()->firstname }} disabled name="firstname" id="firstname" type="text" placeholder="Your First Name *" required="required" data-validation-required-message="Please enter your firstname name" />
+                                <input class="form-control" value={{ Auth::user()->firstname }} disabled name="firstname" id="firstname" type="text" placeholder="Your First Name *" required data-validation-required-message="Please enter your firstname name" />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" value={{ Auth::user()->lastname }} disabled name="lastname" id="lastname" type="text" placeholder="Your Last Name *" required="required" data-validation-required-message="Please enter your last name." />
+                                <input class="form-control" value={{ Auth::user()->lastname }} disabled name="lastname" id="lastname" type="text" placeholder="Your Last Name *" required data-validation-required-message="Please enter your last name." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" value={{ Auth::user()->email }} disabled name="email" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address." />
+                                <input class="form-control" value={{ Auth::user()->email }} disabled name="email" id="email" type="email" placeholder="Your Email *" required data-validation-required-message="Please enter your email address." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group mb-md-0">
-                                <input class="form-control" value={{ Auth::user()->contact_number }} disabled name="contact_number" id="contact_nummber" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number." />
+                                <input class="form-control" value={{ Auth::user()->contact_number }} disabled name="contact_number" id="contact_nummber" type="tel" placeholder="Your Phone *" required data-validation-required-message="Please enter your phone number." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             @else
                             <div class="form-group">
-                                <input class="form-control" name="firstname" id="firstname" type="text" placeholder="Your First Name *" required="required" data-validation-required-message="Please enter your firstname name" />
+                                <input class="form-control" name="firstname" id="firstname" type="text" placeholder="Your First Name *" required data-validation-required-message="Please enter your firstname name" />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" name="lastname" id="lastname" type="text" placeholder="Your Last Name *" required="required" data-validation-required-message="Please enter your last name." />
+                                <input class="form-control" name="lastname" id="lastname" type="text" placeholder="Your Last Name *" required data-validation-required-message="Please enter your last name." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group">
-                                <input class="form-control" name="email" id="email" type="email" placeholder="Your Email *" required="required" data-validation-required-message="Please enter your email address." />
+                                <input class="form-control" name="email" id="email" type="email" placeholder="Your Email *" required data-validation-required-message="Please enter your email address." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             <div class="form-group mb-md-0">
-                                <input class="form-control" name="contact_number" id="contact_nummber" type="tel" placeholder="Your Phone *" required="required" data-validation-required-message="Please enter your phone number." />
+                                <input class="form-control" name="contact_number" id="contact_nummber" type="tel" placeholder="Your Phone *" required data-validation-required-message="Please enter your phone number." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             @endif
@@ -255,7 +259,7 @@
                     <div class="col-lg-4 text-lg-left">Copyright © Seen Zone 2021</div>
                     <div class="col-lg-4 my-3 my-lg-0">
                         <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-dark btn-social mx-2" href="https://www.facebook.com/seenzoneautoclinic"><i class="fab fa-facebook-f"></i></a>
                         <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <div class="col-lg-4 text-lg-right">
@@ -276,7 +280,7 @@
         <script src="landing_page/assets/mail/contact_me.js"></script>
         <!-- Core theme JS-->
         <script src="landing_page/js/scripts.js"></script>
-        <script>
+        <script type="text/javascript">
             var images=new Array('landing_page/assets/img/c_1.jpg','landing_page/assets/img/c_2.jpg', 'landing_page/assets/img/c_4.jpg');
             var nextimage=0;
             doSlideshow();

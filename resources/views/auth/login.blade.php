@@ -1,6 +1,5 @@
 @extends('layouts.skeleton')
 @section('skeleton-content')
-
 <section class="body-sign">
     <div class="center-sign">
         <a href="/">

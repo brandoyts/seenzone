@@ -66,6 +66,7 @@
                     <th>Full Name</th>
                     <th>Email</th>
                     <th>Contact Number</th>
+                    <th>Plate Number</th>
                     <th>Service</th>
                     <th>Cost</th>
                     <th>Scheduled At</th>
@@ -79,6 +80,7 @@
                     <td>{{ $value->firstname . ' ' . $value->lastname }}</td>
                     <td>{{ $value->email }}</td>
                     <td>{{ $value->contact_number }}</td>
+                    <td>{{ $value->plate_number }}</td>
                     <td>{{ $value->service }}</td>
                     <td>{{ $value->cost }}</td>
                     <td>{{ $value->scheduled_at }}</td>

@@ -1,7 +1,7 @@
 <header class="header">
     <div class="logo-container">
         <a href="/dashboard" class="logo">
-            <img src="img/logo.png" width="75" height="35" alt="SeenZone" />
+            <img src="landing_page/assets/img/logo.jpg" style="border-radius: 50%;" width="40" height="40" alt="SeenZone" />
         </a>
         <div class="d-md-none toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
             <i class="fas fa-bars" aria-label="Toggle sidebar"></i>

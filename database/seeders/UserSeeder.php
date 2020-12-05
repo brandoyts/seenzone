@@ -17,22 +17,24 @@ class UserSeeder extends Seeder
     {
         $users = [
             [   
+                'firstname' => 'seenzone',
+                'lastname' => 'admin',
+                'email' => 'seenzoneadmin@mail.com',
+                'password' => Hash::make('d5em320'),
+                'role_id' => 1,
+                'contact_number' => ''
+            ],
+
+            [   
                 'firstname' => 'brando',
-                'lastname' => 'endona',
+                'lastname' => 'admin',
                 'email' => 'brando@mail.com',
                 'password' => Hash::make('1234'),
                 'role_id' => 1,
-                'contact_number' => '123456789012'
+                'contact_number' => ''
             ],
 
-            [
-                'firstname' => 'jdc',
-                'lastname' => 'test',
-                'email' => 'jdc@mail.com',
-                'password' => Hash::make('1234'),
-                'role_id' => 2,
-                'contact_number' => '555666123412'
-            ],
+           
         ];
         DB::table('users')->insert($users);
     }

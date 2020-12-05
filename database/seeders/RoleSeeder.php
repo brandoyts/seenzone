@@ -24,6 +24,11 @@ class RoleSeeder extends Seeder
                 'id' => 2,
                 'role' => 'client',
             ],
+
+            [
+                'id' => 3,
+                'role' => 'guest'
+            ]
         ];
 
 

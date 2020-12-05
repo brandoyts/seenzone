@@ -35,7 +35,7 @@ class AdminController extends Controller
     
         $appointments = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
         ->where('status_id', 'not like', '%1%')
-        ->get(['firstname', 'lastname', 'email', 'scheduled_at', 'status_id', 'contact_number'])
+        ->get(['firstname', 'lastname', 'email', 'scheduled_at', 'status_id', 'contact_number', 'plate_number'])
         ->toArray();
         $this->getAppointmentCount();
         return $appointments;
@@ -82,11 +82,9 @@ class AdminController extends Controller
         ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', 1)
         ->orderBy('scheduled_at', 'asc')
-        ->get(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'scheduled_at', 'services.service', 'services.cost', 'contact_number'])
+        ->get(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'scheduled_at', 'services.service', 'services.cost', 'contact_number', 'plate_number'])
         ->toArray();
 
-        
-        
         return view('layouts.admin.appointment', compact('appointments'));
     }
 
@@ -124,6 +122,7 @@ class AdminController extends Controller
             'scheduled_at',
             'services.service',
             'services.cost',
+            'plate_number',
             'contact_number'
         ];
 
@@ -149,7 +148,8 @@ class AdminController extends Controller
             'scheduled_at',
             'services.service',
             'services.cost',
-            'contact_number'
+            'contact_number',
+            'plate_number',
         ];
 
         $ongoingTasks = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
@@ -178,7 +178,8 @@ class AdminController extends Controller
             'services.service',
             'services.cost',
             'appointments.updated_at',
-            'contact_number'
+            'contact_number',
+            'plate_number',
         ];
 
        
@@ -250,7 +251,7 @@ class AdminController extends Controller
         $services = Service::get()->toArray();
 
         $servedTasks = DB::table('appointments')
-        ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at'])
+        ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at',  'plate_number',])
         ->when($date_filter, function ($query, $date_filter) {
             if (in_array(null, $date_filter, true)) {
                 return false;
@@ -286,6 +287,7 @@ class AdminController extends Controller
             'services' => $services,
             'sales' => $total_sales
         ];
+
 
 
 

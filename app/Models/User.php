@@ -20,7 +20,12 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Appointment');
     }
 
-
+    /**
+     * Get the plate record associated with the user.
+     */
+    public function plate() {
+        return $this->hasMany('App\Models\Plate');
+    }
 
      /**
      * Get the role record associated with the user.

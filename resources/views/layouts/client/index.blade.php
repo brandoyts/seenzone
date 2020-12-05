@@ -7,16 +7,17 @@
         <meta name="author" content="Seenzone" />
         <title>Seen Zone | Auto Clinic</title>
         <link rel="icon" type="image/x-icon" href="landing_page/assets/img/favicon.ico" />
-        <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
-        <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
-        <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/landing_page/css/styles.css" rel="stylesheet" />
+        <link href="landing_page/css/styles.css" rel="stylesheet" />
+        <link rel="stylesheet" href="vendor/select2/css/select2.css" />
+		<link rel="stylesheet" href="vendor/select2-bootstrap-theme/select2-bootstrap.min.css"/>
+		<link rel="stylesheet" href="vendor/pnotify/pnotify.custom.css" />
     </head>
     <body id="page-top">
+        
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
             <div class="container">
@@ -50,11 +51,16 @@
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a data-toggle="modal" data-target="#exampleModal"
+                                class="dropdown-item" href="#">Service History</a>
+
                                 <a class="dropdown-item" href="{{ route('logout') }}"
                                     onclick="event.preventDefault();
                                                     document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
+
+                                
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                     @csrf
@@ -66,6 +72,50 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Modal -->
+        @if (Auth::user() && Auth::user()->role_id == 2)
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header bg-warning">
+                <h5 class="modal-title" id="exampleModalLabel">Service History</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive-lg">
+                        <table class="table table-striped">
+                            <thead>
+                                <th scope="col">Plate Number</th>
+                                <th scope="col">Service</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Scheduled At</th>
+                                <th scope="col">Finished At</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($responseData['appointmentHistory'] as $key => $value)
+                                <tr>
+                                    <td>{{ $value['plate_number'] }}</td>
+                                    <td>{{ $value['service'] }}</td>
+                                    <td>{{ $value['name'] }}</td>
+                                    <td>{{ $value['scheduled_at'] }}</td>
+                                    <td>{{ $value['updated_at'] }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+            </div>
+        </div>
+        @endif
 
         <!-- Masthead-->
         <header class="masthead">
@@ -112,70 +162,39 @@
 
         <!-- About-->
         <section class="page-section" id="about">
+            <div class="overlay"></div>
             <div class="container">
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">About</h2>
-                    <h3 class="section-subheading text-muted">Lorem ipsum dolor sit amet consectetur.</h3>
+                    <h3 class="section-subheading ">SeenZone Auto Clinic</h3>
                 </div>
-                <ul class="timeline">
-                    <li>
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="landing_page/assets/img/about/1.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>2009-2011</h4>
-                                <h4 class="subheading">Our Humble Beginnings</h4>
-                            </div>
-                            <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                
+                <div class="about-content">
+                    <div class="about-content-text">
+                        <div class="contact-info">
+                            <p class="contact-label">Contact us at:</p>
+                            <p>0908-599-9031</p>
                         </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="landing_page/assets/img/about/2.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>March 2011</h4>
-                                <h4 class="subheading">An Agency is Born</h4>
-                            </div>
-                            <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                        <div class="contact-info">
+                            <p class="contact-label">Address:</p>
+                            <p>918 Del Monte Ave, San Francisco del Monte, Quezon City, 1104 Metro Manila (INSIDE SEAOIL DELMONTE AVENUE QUEZON CITY) 1105 Quezon City, Philippines</p>
                         </div>
-                    </li>
-                    <li>
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="landing_page/assets/img/about/3.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>December 2012</h4>
-                                <h4 class="subheading">Transition to Full Service</h4>
-                            </div>
-                            <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
+                        <div class="contact-info">
+                            <a class="btn btn-primary" href="https://www.facebook.com/seenzoneautoclinic"><i class="fab fa-facebook-f"></i></a>
                         </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image"><img class="rounded-circle img-fluid" src="landing_page/assets/img/about/4.jpg" alt="" /></div>
-                        <div class="timeline-panel">
-                            <div class="timeline-heading">
-                                <h4>July 2014</h4>
-                                <h4 class="subheading">Phase Two Expansion</h4>
-                            </div>
-                            <div class="timeline-body"><p class="text-muted">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt ut voluptatum eius sapiente, totam reiciendis temporibus qui quibusdam, recusandae sit vero unde, sed, incidunt et ea quo dolore laudantium consectetur!</p></div>
-                        </div>
-                    </li>
-                    <li class="timeline-inverted">
-                        <div class="timeline-image">
-                            <h4>
-                                Be Part
-                                <br />
-                                Of Our
-                                <br />
-                                Story!
-                            </h4>
-                        </div>
-                    </li>
-                </ul>
+                    </div>
+                    <div class="about-content-map">
+                    </div>
+                </div>
             </div>
         </section>
+       
+        
+
 
         <!-- Contact-->
         <section class="page-section" id="contact">
-            <div class="container"> session()->flash('message-fail','Schedule is not available!');
+            <div class="container"> 
                 <div class="text-center">
                     <h2 class="section-heading text-uppercase">Set an appointment</h2>
                     @if(session()->has('message-success'))
@@ -192,6 +211,11 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <input class="form-control" name="scheduled_at" id="scheduled_at" type="datetime-local" placeholder="Your First Name *" required data-validation-required-message="Please enter the appointment schedule." />
+                                <p class="help-block text-danger"></p>
+                            </div>
+
+                            <div class="form-group">
+                                <input class="form-control" name="plate_number" id="plate_number" type="text" placeholder="Plate Number *" required data-validation-required-message="Please enter the plate number." />
                                 <p class="help-block text-danger"></p>
                             </div>
                             @if (Auth::user())
@@ -232,8 +256,9 @@
                             <div class="form-group mb-md-0">
                                 <label class="text-light" for="service_option">Choose a service:</label>
                                 <select id="service_option" name="service_option" id="service_option"  name="service_option" required>
-                                @foreach ($services as $service)
-                                    <option value="{{ $service['id'] }}">{{ $service['service'] }}</option>
+                                   
+                                @foreach ($responseData['services'] as $key => $value)
+                                    <option value="{{ $value['id'] }}">{{ $value['service'] }}</option>
                                 @endforeach
                                 </select>
                                 <p class="help-block text-danger"></p>
@@ -258,9 +283,8 @@
                 <div class="row align-items-center">
                     <div class="col-lg-4 text-lg-left">Copyright © Seen Zone 2021</div>
                     <div class="col-lg-4 my-3 my-lg-0">
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-twitter"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="https://www.facebook.com/seenzoneautoclinic"><i class="fab fa-facebook-f"></i></a>
-                        <a class="btn btn-dark btn-social mx-2" href="#!"><i class="fab fa-linkedin-in"></i></a>
+                        
+                        
                     </div>
                     <div class="col-lg-4 text-lg-right">
                         <a class="mr-3" href="#!">Privacy Policy</a>
@@ -281,7 +305,7 @@
         <!-- Core theme JS-->
         <script src="landing_page/js/scripts.js"></script>
         <script type="text/javascript">
-            var images=new Array('landing_page/assets/img/c_1.jpg','landing_page/assets/img/c_2.jpg', 'landing_page/assets/img/c_4.jpg');
+            var images=new Array('landing_page/assets/img/img1.png','landing_page/assets/img/img2.png', 'landing_page/assets/img/img3.png');
             var nextimage=0;
             doSlideshow();
             

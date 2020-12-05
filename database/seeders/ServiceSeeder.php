@@ -20,37 +20,37 @@ class ServiceSeeder extends Seeder
         $services = [
             [
                 'service' => 'Periodic Maintenance',
-                'cost' => 6700
+                'cost' => 0
             ],
 
             [
                 'service' => 'Change Oil',
-                'cost' => 12300
+                'cost' => 0
             ],
 
             [
                 'service' => 'Brakes',
-                'cost' => 1600
+                'cost' => 0
             ],
 
             [
                 'service' => 'Throttle Body Cleaning',
-                'cost' => 4000
+                'cost' => 0
             ],
 
             [
                 'service' => 'Tune Up',
-                'cost' => 700
+                'cost' => 0
             ],
 
             [
                 'service' => 'Diagnostic Scanning',
-                'cost' => 700
+                'cost' => 0
             ],
 
             [
                 'service' => 'Parts',
-                'cost' => 700
+                'cost' => 0
             ],
         ];
        

@@ -6,6 +6,7 @@
             <th>Full Name</th>
             <th>Email</th>
             <th>Contact Number</th>
+            <th>Plate Number</th>
             <th>Service</th>
             <th>Schedule</th>
             <th>Actions</th>
@@ -17,6 +18,7 @@
             <td>{{ $value['firstname'].' '.$value['lastname'] }}</td>
             <td>{{ $value['email'] }}</td>
             <td>{{ $value['contact_number'] }}</td>
+            <td>{{ $value['plate_number'] }}</td>
             <td>{{ $value['service'] }}</td>
             <td>{{ $value['scheduled_at'] }}</td>
             <td class="actions">
@@ -27,8 +29,6 @@
         @endforeach
     </tbody>
 </table>
-
-
 <script src="vendor/jquery/jquery.js"></script>
 <script src="vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 <script src="vendor/popper/umd/popper.min.js"></script>

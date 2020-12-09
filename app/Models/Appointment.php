@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Carbon\Carbon;
 
 class Appointment extends Model
 {
@@ -23,6 +22,10 @@ class Appointment extends Model
         return $this->belongsTo('App\Models\service')->withDefault();
     }
 
+    public function walkIn() {
+        return $this->belongsTo('App\Models\WalkIn')->withDefault();
+    }
+
    
 
 
@@ -33,6 +36,7 @@ class Appointment extends Model
      */
     protected $fillable = [
         'user_id',
+        'walk_in_id',
         'status_id',
         'service_id',
         'plate_number',

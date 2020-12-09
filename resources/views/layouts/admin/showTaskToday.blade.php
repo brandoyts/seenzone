@@ -1,4 +1,5 @@
 @extends('layouts.admin.index')
+@section('header-title', 'Task Today')
 @section('admin_content')
 <table class="table table-bordered table-striped mb-0" id="datatable-editable">
     <thead>
@@ -22,14 +23,8 @@
             <td>{{ $value['service'] }}</td>
             <td>{{ $value['scheduled_at'] }}</td>
             <td class="actions">
-                <form method="POST" action="{{ route('updateTask') }}">
-                    @csrf
-                    <input type="hidden" name="appointment_id" value="{{ $value['id'] }}">
-                    <button type="submit" class="on-default btn btn-success text-light">
-                        <i class="fas fa-check"></i>
-                        Served
-                    </button>
-                </form>
+                <a href="{{ route('updateTask', ['appointment_id' => "served ".$value['id']]) }}" class="on-default btn btn-success text-light"><i class="fas fa-check"></i>Confirm</a>
+                <a href="{{ route('updateTask', ['appointment_id' => "cancel ".$value['id']]) }}" class="on-default btn btn-danger  text-light"><i class="far fa-trash-alt"></i>Cancel</a>
             </td>
         </tr>
         @endforeach

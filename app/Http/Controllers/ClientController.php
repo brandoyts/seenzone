@@ -9,7 +9,6 @@ use App\Models\Appointment;
 
 class ClientController extends Controller
 {   
-
     public function index() {
         $services = Service::get();
         $appointments = Appointment::where('user_id', Auth::id())
@@ -50,6 +49,4 @@ class ClientController extends Controller
         }
         return redirect()->intended('/#contact');
     }
-
-   
 }

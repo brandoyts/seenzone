@@ -1,4 +1,5 @@
 @extends('layouts.admin.index')
+@section('header-title', 'Reports')
 @section('admin_content')
 <section class="cards d-flex justify-content-around m-auto flex-wrap w-75">
     <div >

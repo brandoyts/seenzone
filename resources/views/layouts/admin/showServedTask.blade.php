@@ -1,4 +1,5 @@
 @extends('layouts.admin.index')
+@section('header-title', 'Served Task')
 @section('admin_content')
 <table class="table table-bordered table-striped mb-0" id="datatable-editable">
     <thead>

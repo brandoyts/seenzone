@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AdminController;
-use App\Http\Middleware\Role;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,12 +25,17 @@ Route::post('/', [ClientController::class, 'book'])->name('book');
 // admin routes
 Route::get('/dashboard', [AdminController::class, 'index'])->name('dashboard');
 Route::get('/appointment', [AdminController::class, 'getAppointment'])->name('appointment');
+
+Route::get('/addWalkIn', [AdminController::class, 'addWalkIn'])->name('addWalkIn');
+Route::post('/addWalkIn', [AdminController::class, 'addWalkIn'])->name('addWalkIn');
+
 Route::get('/confirm_appointment/{appointment_id?}', [AdminController::class, 'confirmOrDelete'])->name('confirmOrDelete'); // confirm or delete appointment
 Route::get('/services', [AdminController::class, 'getServices'])->name('services');
 Route::get('/showTaskToday', [AdminController::class, 'showTaskToday'])->name('showTaskToday');
 Route::get('/showOngoingTask', [AdminController::class, 'showOngoingTask'])->name('showOngoingTask');
+Route::get('/showFutureTask', [AdminController::class, 'showFutureTask'])->name('showFutureTask');
 Route::get('/showServedTask', [AdminController::class, 'showServedTask'])->name('showServedTask');
-Route::get('/reports', [AdminController::Class, 'viewReports'])->name('reports');
-Route::post('/updateTask', [AdminController::class, 'updateTask'])->name('updateTask'); // mark as served
+Route::get('/reports', [AdminController::class, 'viewReports'])->name('reports');
+Route::get('/updateTask/{appointment_id?}', [AdminController::class, 'updateTask'])->name('updateTask'); // mark as served
 
 

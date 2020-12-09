@@ -1,4 +1,5 @@
 @extends('layouts.admin.index')
+@section('header-title', 'Services')
 @section('admin_content')
 <table class="table table-responsive-lg table-bordered table-striped table-sm mb-0">
     <thead>

@@ -38,6 +38,12 @@
                             <span>Reports</span>
                         </a>                        
                     </li>
+                    <li>
+                        <a class="nav-link" href="/addWalkIn">
+                            <i class="fas fa-external-link-alt" aria-hidden="true"></i>
+                            <span>Add a walk in</span>
+                        </a>                        
+                    </li>
                 </ul>
             </nav>
         </div>

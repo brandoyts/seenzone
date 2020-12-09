@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use App\Models\User;
 use App\Models\Service;
+use App\Models\WalkIn;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -15,6 +15,48 @@ class AdminController extends Controller
     public function __construct() {
         $this->middleware('role');
     }
+
+    public function index() {
+    
+        $calendarData = $this->getAppointments();
+        $appointmentCount = $this->getAppointmentCount();
+
+        $responseData = [
+            'calendarData' => $calendarData,
+            'appointmentCount' =>  $appointmentCount
+        ];
+
+        return view('layouts.admin.dashboard', compact('responseData'));
+    }
+
+    public function addWalkIn(Request $request) {
+
+        if ($request->method() == "GET") {
+            $services = Service::get();
+            return view('layouts.admin.addWalkIn', compact('services'));
+        } 
+        else if ($request->method() == "POST") {
+            $newWalkIn = new WalkIn;
+            $newWalkIn->firstname = $request->firstname;
+            $newWalkIn->lastname = $request->lastname;
+            $newWalkIn->email = $request->email;
+            $newWalkIn->contact_number = $request->contact_number;
+            $newWalkIn->save();
+
+
+            Appointment::insert([
+                'walk_in_id' => $newWalkIn->id,
+                'scheduled_at' => $request->scheduled_at,
+                'status_id' => 2,
+                'service_id' => $request->service_option,
+                'plate_number' => $request->plate_number
+            ]);
+
+
+            return back();
+        }
+    }
+
 
     private function getTime() {
         $now = Carbon::now()->toDateTimeString();
@@ -33,14 +75,19 @@ class AdminController extends Controller
        
         $dateNow = $this->getTime();
     
-        $appointments = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        $clientAppointment = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
         ->where('status_id', 'not like', '%1%')
         ->get(['firstname', 'lastname', 'email', 'scheduled_at', 'status_id', 'contact_number', 'plate_number'])
         ->toArray();
-        $this->getAppointmentCount();
+
+        $walkInAppointment = Appointment::join('walk_in', 'walk_in.id', '=', 'appointments.walk_in_id')
+        ->get(['firstname', 'lastname', 'email', 'scheduled_at', 'status_id', 'contact_number', 'plate_number'])
+        ->toArray();
+
+        $appointments = array_merge($clientAppointment, $walkInAppointment);
+
         return $appointments;
     }
-
 
     private function getAppointmentCount() {
         $dateNow = $this->getTime();
@@ -57,24 +104,16 @@ class AdminController extends Controller
         ->whereBetween('updated_at', $dateNow)
         ->count();
 
+        $futureTask = Appointment::where('status_id', 2)
+        ->where('scheduled_at', '>=', $dateNow['to'])
+        ->count();
+
         return $appointmentCount = [
             'taskToday' => $taskToday,
             'ongoing' => $ongoing,
             'served' => $served,
+            'futureTask' => $futureTask
         ];
-    }
-
-    public function index() {
-    
-        $calendarData = $this->getAppointments();
-        $appointmentCount = $this->getAppointmentCount();
-
-        $responseData = [
-            'calendarData' => $calendarData,
-            'appointmentCount' =>  $appointmentCount
-        ];
-
-        return view('layouts.admin.dashboard', compact('responseData'));
     }
 
     public function getAppointment() {
@@ -82,8 +121,7 @@ class AdminController extends Controller
         ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', 1)
         ->orderBy('scheduled_at', 'asc')
-        ->get(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'scheduled_at', 'services.service', 'services.cost', 'contact_number', 'plate_number'])
-        ->toArray();
+        ->get(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'scheduled_at', 'services.service', 'services.cost', 'contact_number', 'plate_number']);
 
         return view('layouts.admin.appointment', compact('appointments'));
     }
@@ -107,7 +145,7 @@ class AdminController extends Controller
     }
 
     public function getServices() {
-        $services = Service::get()->toArray();
+        $services = Service::get();
         return view('layouts.admin.services', compact('services'));
     }
 
@@ -126,7 +164,7 @@ class AdminController extends Controller
             'contact_number'
         ];
 
-        $taskToday = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        $clientAppointment = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
         ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', 2)
         ->where('scheduled_at', '<=', $dateNow['to'])
@@ -134,7 +172,53 @@ class AdminController extends Controller
         ->toArray();
 
 
+        $walkInAppointment = Appointment::join('walk_in', 'walk_in.id', '=', 'appointments.walk_in_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
+        ->where('status_id', 2)
+        ->where('scheduled_at', '<=', $dateNow['to'])
+        ->get($fields)
+        ->toArray();
+
+        $taskToday = array_merge($clientAppointment, $walkInAppointment);
+
+
        return view('layouts.admin.showTaskToday', compact('taskToday'));
+    }
+
+    public function showFutureTask() {
+        $dateNow = $this->getTime();
+
+        $fields = [
+            'appointments.id',
+            'firstname',
+            'lastname',
+            'email',
+            'scheduled_at',
+            'services.service',
+            'services.cost',
+            'plate_number',
+            'contact_number'
+        ];
+
+        $clientAppointment = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
+        ->where('status_id', 2)
+        ->where('scheduled_at', '>=', $dateNow['to'])
+        ->get($fields)
+        ->toArray();
+
+
+        $walkInAppointment = Appointment::join('walk_in', 'walk_in.id', '=', 'appointments.walk_in_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
+        ->where('status_id', 2)
+        ->where('scheduled_at', '>=', $dateNow['to'])
+        ->get($fields)
+        ->toArray();
+
+        $futureTask = array_merge($clientAppointment, $walkInAppointment);
+
+
+       return view('layouts.admin.showFutureTask', compact('futureTask'));
     }
 
     public function showOngoingTask() {
@@ -152,12 +236,22 @@ class AdminController extends Controller
             'plate_number',
         ];
 
-        $ongoingTasks = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        $clientAppointment = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
         ->join('services', 'services.id', '=', 'appointments.service_id')
-        ->where('status_id', '=', 2)
-        ->where('scheduled_at', '<=', $dateNow['from'])
+        ->where('status_id', 2)
+        ->where('scheduled_at', '<=', $dateNow['to'])
         ->get($fields)
         ->toArray();
+
+
+        $walkInAppointment = Appointment::join('walk_in', 'walk_in.id', '=', 'appointments.walk_in_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
+        ->where('status_id', 2)
+        ->where('scheduled_at', '<=', $dateNow['to'])
+        ->get($fields)
+        ->toArray();
+
+        $ongoingTasks = array_merge($clientAppointment, $walkInAppointment);
 
         
 
@@ -183,28 +277,53 @@ class AdminController extends Controller
         ];
 
        
-        $servedTask = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
+        $clientAppointment = Appointment::join('users', 'users.id', '=', 'appointments.user_id')
         ->join('services', 'services.id', '=', 'appointments.service_id')
         ->where('status_id', 3)
-        ->whereBetween('appointments.updated_At', $dateNow)
+        ->where('scheduled_at', '<=', $dateNow['to'])
         ->get($fields)
         ->toArray();
 
-       
+
+        $walkInAppointment = Appointment::join('walk_in', 'walk_in.id', '=', 'appointments.walk_in_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
+        ->where('status_id', 3)
+        ->where('scheduled_at', '<=', $dateNow['to'])
+        ->get($fields)
+        ->toArray();
+
+        $servedTask = array_merge($clientAppointment, $walkInAppointment);
 
 
         return view('layouts.admin.showServedTask', compact('servedTask'));
     }
 
-    // mark as served
     public function updateTask(Request $request) {
 
-        $id = $request['appointment_id'];
-        $appointment = Appointment::find($id);
-        $appointment->status_id = 3;
-        $appointment->save();
+        $idParam = explode(' ', $request->route('appointment_id'));
+        $option = $idParam[0];
+
+        // get the appointment
+        $appointment = Appointment::find($idParam[1]);
         
-        return redirect()->back();
+        switch ($option) {
+            case 'confirm':
+                $appointment->status_id = 2;
+                $appointment->save();
+            break;
+            
+            case 'cancel':
+                $appointment->delete();
+            break;
+
+            case 'served':
+                $appointment->status_id = 3;
+                $appointment->save();
+            break;
+        }
+        
+        
+        return back();
     }
 
     public function viewReports(Request $request) {
@@ -250,7 +369,7 @@ class AdminController extends Controller
 
         $services = Service::get()->toArray();
 
-        $servedTasks = DB::table('appointments')
+        $clientAppointment = DB::table('appointments')
         ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at',  'plate_number',])
         ->when($date_filter, function ($query, $date_filter) {
             if (in_array(null, $date_filter, true)) {
@@ -268,10 +387,34 @@ class AdminController extends Controller
         ->where('status_id', 3)
         ->join('users', 'users.id', '=', 'appointments.user_id')
         ->join('services', 'services.id', '=', 'appointments.service_id')
-        ->get();
+        ->get()
+        ->toArray();
+
+
+        $walkInAppointment = DB::table('appointments')
+        ->select(['appointments.id', 'firstname', 'lastname', 'email', 'contact_number', 'service', 'cost', 'scheduled_at', 'appointments.updated_at',  'plate_number',])
+        ->when($date_filter, function ($query, $date_filter) {
+            if (in_array(null, $date_filter, true)) {
+                return false;
+            }
+            return $query->whereBetween('appointments.updated_at', [$date_filter[0],$date_filter[1]]);
+        })
+        ->when($service_filter, function($query, $service_filter) {
+            if (in_array(null, $service_filter, true)) {
+                return false;
+            }
+
+            return $query->whereIn('appointments.service_id', $service_filter);
+        })
+        ->where('status_id', 3)
+        ->join('walk_in', 'walk_in.id', '=', 'appointments.walk_in_id')
+        ->join('services', 'services.id', '=', 'appointments.service_id')
+        ->get()
+        ->toArray();
 
         
         $total_sales = 0;
+        $servedTasks = array_merge($clientAppointment, $walkInAppointment);
 
         if ($servedTasks) {
             foreach ($servedTasks as $task) {

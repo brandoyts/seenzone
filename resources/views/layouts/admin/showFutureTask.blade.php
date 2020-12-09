@@ -1,5 +1,5 @@
 @extends('layouts.admin.index')
-@section('header-title', 'Manage Appointments')
+@section('header-title', 'Future Task')
 @section('admin_content')
 <table class="table table-bordered table-striped mb-0" id="datatable-editable">
     <thead>
@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($appointments as $key => $value)
+        @foreach($futureTask as $key => $value)
         <tr data-item-id="{{ $key }}">
             <td>{{ $value['firstname'].' '.$value['lastname'] }}</td>
             <td>{{ $value['email'] }}</td>
@@ -23,13 +23,14 @@
             <td>{{ $value['service'] }}</td>
             <td>{{ $value['scheduled_at'] }}</td>
             <td class="actions">
-                <a href="{{ route('updateTask', ['appointment_id' => "confirm ".$value['id']]) }}" class="on-default btn btn-success text-light"><i class="fas fa-check"></i>Confirm</a>
                 <a href="{{ route('updateTask', ['appointment_id' => "cancel ".$value['id']]) }}" class="on-default btn btn-danger  text-light"><i class="far fa-trash-alt"></i>Cancel</a>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
+
+
 <script src="vendor/jquery/jquery.js"></script>
 <script src="vendor/jquery-browser-mobile/jquery.browser.mobile.js"></script>
 <script src="vendor/popper/umd/popper.min.js"></script>

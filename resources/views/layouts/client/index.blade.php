@@ -210,7 +210,7 @@
                         <input type="hidden" name="user_id" id="user_id" value="{{ Auth::id() }}">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <input class="form-control" name="scheduled_at" id="scheduled_at" type="datetime-local" placeholder="Your First Name *" required data-validation-required-message="Please enter the appointment schedule." />
+                                <input class="form-control" name="scheduled_at" id="scheduled_at" type="datetime-local"  required data-validation-required-message="Please enter the appointment schedule." />
                                 <p class="help-block text-danger"></p>
                             </div>
 
@@ -255,7 +255,7 @@
                             @endif
                             <div class="form-group mb-md-0">
                                 <label class="text-light" for="service_option">Choose a service:</label>
-                                <select id="service_option" name="service_option" id="service_option"  name="service_option" required>
+                                <select id="service_option" name="service_option" required>
                                    
                                 @foreach ($responseData['services'] as $key => $value)
                                     <option value="{{ $value['id'] }}">{{ $value['service'] }}</option>

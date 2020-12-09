@@ -173,7 +173,7 @@
 				@include('includes.admin_sidebar')
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2 id="header-title"></h2>
+						<h2 id="header-title">@yield('header-title')</h2>
 					</header>
 					@yield('admin_content')
 				</section>
@@ -217,12 +217,12 @@
 		<script src="js/custom.js"></script>
 		<script src="js/theme.init.js"></script>
 		<script src="js/examples/examples.dashboard.js"></script>
-		<script>
+		{{-- <script>
 			document.addEventListener('DOMContentLoaded', () => {
 				const pageTitle = window.location.pathname.slice(1).toUpperCase();
 				document.getElementById('header-title').innerText =  pageTitle;
 			})
-		</script>
+		</script> --}}
 
 
 <!-- Vendor -->

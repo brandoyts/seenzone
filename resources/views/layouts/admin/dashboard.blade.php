@@ -1,12 +1,13 @@
-
-
 @extends('layouts.admin.index')
+@section('header-title', 'Dashboard')
 @section('admin_content')
+
+    {{-- card container --}}
     <div class="container">
         <div class="card-container d-flex flex-row flex-wrap justify-content-around py-5 align-items-end">
-            <div class="card w-25">
+            <div class="card w-25 m-1">
                 <div class="card-header bg-primary">
-                    <h1 class="card-title text-light">Tasks for Today</h1>
+                    <h1 class="card-title text-light">Task for Today</h1>
                 </div>
                 <div class="card-body text-center bg-dark">
                     <h2 class="count font-weight-bold text-primary"></h2>
@@ -14,7 +15,7 @@
                 </div>
             </div>
 
-            <div class="card w-25">
+            <div class="card w-25 m-1">
                 <div class="card-header bg-secondary">
                     <h1 class="card-title text-light">Ongoing</h1>
                 </div>
@@ -24,7 +25,7 @@
                 </div>
             </div>
 
-            <div class="card w-25">
+            <div class="card w-25 m-1">
                 <div class="card-header bg-success">
                     <h1 class="card-title text-light">Served</h1>
                 </div>
@@ -33,8 +34,20 @@
                     <a href="/showServedTask">View</a>
                 </div>
             </div>
+
+            <div class="card w-25 m-1">
+                <div class="card-header bg-warning">
+                    <h1 class="card-title text-light">Future Task</h1>
+                </div>
+                <div class="card-body text-center bg-dark">
+                    <h2 class="count font-weight-bold text-success"></h2>
+                    <a href="/showFutureTask">View</a>
+                </div>
+            </div>
         </div>
     </div>
+
+    {{-- calendar container --}}
 	<section class="card">
         <div class="card-body">
             <div class="row">
